@@ -1,2 +1,2 @@
 flask
-tflite==2.9.1
+tflite

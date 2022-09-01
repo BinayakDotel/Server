@@ -5,7 +5,7 @@ concrete_func = model.signatures[tf.saved_model.DEFAULT_SERVING_SIGNATURE_DEF_KE
 
 @tf.function(input_signature=[tf.TensorSpec(shape=[1, 50, 50, 3], dtype=tf.float32)])
 def f(input):
-  return concrete_func(input);
+  return concrete_func(input)
 
 converter = tf.lite.TFLiteConverter.from_concrete_functions([f.get_concrete_function()], model)
 converter.optimizations = [tf.lite.Optimize.DEFAULT]

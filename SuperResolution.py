@@ -3,25 +3,17 @@ from cv2 import imshow
 import tensorflow as tf
 import cv2 as cv
 import numpy as np
-from matplotlib import pyplot as plt
 from PIL import Image
-import tensorflow_hub as hub
 
 class SuperResolution:
     def __init__(self):
         self.model= tf.saved_model.load("./models/generator/")
-        #self.model= tf.keras.models.load_model("models/new _model_20.h5")
-        #self.model= hub.load(config.SAVED_MODEL_PATH)
         
     def predict(self, image_path, name):
         image= self.preprocess_image(image_path)
         prediction= self.model(image)
         prediction= tf.squeeze(prediction)
-        
-        print(prediction.shape)
-                
         self.write_to_file(prediction, f"enhanced_{name}")
-        print("SUCCESS")
         
     def preprocess_image(self, image_path):
         """ Loads image from path and preprocesses to make it model ready

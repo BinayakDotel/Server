@@ -1,4 +1,4 @@
-import tensorflow as tf
+import tflite as tf
 from PIL import Image
 
 class SuperResolution:

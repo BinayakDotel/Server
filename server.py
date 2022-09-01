@@ -1,7 +1,6 @@
 from msilib.schema import File
 from flask import Flask, request, Response
 from werkzeug.utils import secure_filename
-import cv2 as cv
 from PIL import Image
 import os
 from SuperResolution import SuperResolution

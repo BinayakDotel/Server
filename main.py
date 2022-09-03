@@ -1,7 +1,6 @@
 from msilib.schema import File
 from flask import Flask, request, Response
 from werkzeug.utils import secure_filename
-from PIL import Image
 import os
 from SuperResolution import SuperResolution
 import base64
@@ -39,7 +38,6 @@ def uploadImage():
             with open("./static/output_images/enhanced_"+filename, 'rb') as f:
                 readData = base64.b64encode(f.read())
                 return "Image Uploaded!", 200
-                print(readData)
         except:
             return "Error in processing image", 400
     else:

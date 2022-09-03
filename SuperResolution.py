@@ -1,9 +1,9 @@
-import tflite as tf
+import tensorflow as tf
 from PIL import Image
 
 class SuperResolution:
     def __init__(self):
-        self.model= tf.saved_model.load("./models/generator/")
+        self.model= tf.saved_model.load("./models/SRGAN_model/")
         
     def predict(self, image_path, name):
         image= self.preprocess_image(image_path)

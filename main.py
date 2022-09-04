@@ -3,7 +3,8 @@ from flask import Flask, request, Response
 from werkzeug.utils import secure_filename
 import os
 from SuperResolution import SuperResolution
-import base64
+import io, base64
+from PIL import Image
 
 UPLOAD_FOLDER = './static/input_images/'
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
@@ -54,6 +55,29 @@ def uploadImage():
         return {"error":"Only JPG,PNG and JPEG is accepted"}, 400
 
 
+@app.route("/enhance", methods=["POST"])
+def Enhance():
+    body = request.json
+    print(body)
+    if 'image' not in body and 'file_name' not in body and 'file_extension' not in body and body['file_extension'] not in ALLOWED_EXTENSIONS:
+        return "Error Request", 400
+    imageBase = body['image']
+    imageName = body['file_name']
+    extension = body['file_extension']
+    try:
+        fileName = imageName+"."+extension
+        img = Image.open(io.BytesIO(base64.decodebytes(bytes(imageBase, "utf-8"))))
+        inputPath = "./static/input_images/"+imageName+"."+extension
+        img.save(inputPath)
+        sr = SuperResolution()
+        sr.predict(inputPath, fileName)
+        with open("./static/output_images/enhanced_"+fileName, 'rb') as f:
+            readData = base64.b64encode(f.read())
+            return readData, 200
+    except:
+        return "Error in processing image", 400
+
+
 
 if __name__=="__main__":
-    app.run()
+    app.run(host="192.168.245.32")

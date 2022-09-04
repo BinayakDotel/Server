@@ -19,6 +19,15 @@ def allowed_file(filename):
 def index():
     return "Hello World!"
 
+
+@app.route("/images", methods=["GET"])
+def getAllImages():
+    temp = os.listdir('./static/output_images')
+    images = []
+    for image in temp:
+        images.append("/static/output_images/"+image)
+    return images, 200
+
 @app.route("/upload_image", methods=["POST"])
 def uploadImage():
     if 'picture' not in request.files:
@@ -37,7 +46,8 @@ def uploadImage():
             sr.predict(image_path, filename)
             with open("./static/output_images/enhanced_"+filename, 'rb') as f:
                 readData = base64.b64encode(f.read())
-                return "Image Uploaded!", 200
+                return readData, 200
+
         except:
             return "Error in processing image", 400
     else:

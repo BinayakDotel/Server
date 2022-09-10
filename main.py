@@ -71,9 +71,7 @@ def Enhance():
         img.save(inputPath)
         sr = SuperResolution()
         sr.predict(inputPath, fileName)
-        with open("./static/output_images/enhanced_"+fileName, 'rb') as f:
-            readData = base64.b64encode(f.read())
-            return readData, 200
+        return "static/output_images/enhanced_"+fileName, 200
     except:
         return "Error in processing image", 400
 
